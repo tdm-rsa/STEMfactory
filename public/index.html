@@ -689,6 +689,55 @@
                 });
             });
         });
+        bookingForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const maths = document.getElementById('maths').checked;
+  const physics = document.getElementById('physics').checked;
+  const both = document.getElementById('both')?.checked;
+
+  if (!maths && !physics && !both) {
+    alert('Please select at least one subject.');
+    return;
+  }
+
+  let total = 0;
+  let subjects = [];
+
+  if (maths) {
+    total += 300;
+    subjects.push('Mathematics');
+  }
+  if (physics) {
+    total += 300;
+    subjects.push('Physics');
+  }
+
+  // ✅ Send data to backend
+  fetch("/book", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, email, subjects })
+  })
+  .then(res => res.text())
+  .then(msg => {
+    successMessage.innerHTML = `
+      Thank you for your booking, ${name}!<br>
+      We've received your request for ${subjects.join(' and ')} tutoring.<br>
+      Total: R${total}. We'll contact you at ${email} shortly to confirm your session.
+    `;
+    successMessage.style.display = 'block';
+    bookingForm.reset();
+    successMessage.scrollIntoView({ behavior: 'smooth' });
+  })
+  .catch(err => {
+    alert("Booking failed. Please try again.");
+    console.error(err);
+  });
+});
+
     </script>
 </body>
 </html>
