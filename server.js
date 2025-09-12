@@ -1,58 +1,75 @@
-const express = require("express");
-const sqlite3 = require("sqlite3").verbose();
-const path = require("path");
-const bodyParser = require("body-parser");
-
+const express = require('express');
+const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
 const app = express();
-const db = new sqlite3.Database("bookings.db");
+const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(express.static("public"));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.static('public')); // If serving static files
 
-// Create bookings table if it doesn't exist
-db.run(`
-  CREATE TABLE IF NOT EXISTS bookings (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
-    email TEXT,
-    subjects TEXT,
-    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-  )
-`);
-
-// Handle booking form submission
-app.post("/book", (req, res) => {
-  const { name, email, subjects } = req.body;
-  const selectedSubjects = Array.isArray(subjects) ? subjects.join(", ") : subjects;
-
-  db.run(
-    `INSERT INTO bookings (name, email, subjects) VALUES (?, ?, ?)`,
-    [name, email, selectedSubjects],
-    function (err) {
-      if (err) {
-        console.error(err.message);
-        return res.status(500).send("Booking failed.");
-      }
-      res.status(200).send("Booking successful!");
-    }
-  );
+// Initialize database
+const db = new sqlite3.Database('bookings.db', (err) => {
+  if (err) {
+    console.error('Error opening database:', err);
+  } else {
+    console.log('Connected to SQLite database');
+    // Create bookings table if it doesn't exist
+    db.run(`CREATE TABLE IF NOT EXISTS bookings (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      subjects TEXT NOT NULL,
+      total REAL NOT NULL,
+      timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+    )`);
+  }
 });
 
-// View all bookings
-app.get("/bookings", (req, res) => {
-  db.all(`SELECT * FROM bookings ORDER BY timestamp DESC`, [], (err, rows) => {
+// API endpoint to handle booking submissions
+app.post('/api/book', (req, res) => {
+  const { name, email, subjects } = req.body;
+  
+  if (!name || !email || !subjects || subjects.length === 0) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+  
+  const total = subjects.length * 300;
+  const subjectsString = subjects.join(',');
+  
+  const stmt = db.prepare('INSERT INTO bookings (name, email, subjects, total) VALUES (?, ?, ?, ?)');
+  stmt.run([name, email, subjectsString, total], function(err) {
     if (err) {
-      console.error(err.message);
-      return res.status(500).send("Error retrieving bookings.");
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Failed to save booking' });
+    }
+    
+    res.json({ 
+      message: 'Booking successful', 
+      total: total,
+      bookingId: this.lastID 
+    });
+  });
+  
+  stmt.finalize();
+});
+
+// API endpoint to get all bookings (optional, for admin)
+app.get('/api/bookings', (req, res) => {
+  db.all('SELECT * FROM bookings ORDER BY timestamp DESC', (err, rows) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Failed to fetch bookings' });
     }
     res.json(rows);
   });
 });
 
-// Start server
-const PORT = process.env.PORT || 3000;
+// Serve the frontend
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

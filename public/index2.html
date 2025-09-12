@@ -366,16 +366,6 @@
             text-align: center;
         }
         
-        .error-message {
-            display: none;
-            background: #dc3545;
-            color: white;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
@@ -523,9 +513,6 @@
                 <div id="success-message" class="success-message">
                     Thank you for your booking! We'll contact you shortly to confirm your session.
                 </div>
-                <div id="error-message" class="error-message">
-                    There was an error processing your booking. Please try again.
-                </div>
                 <form id="booking-form">
                     <div class="form-group">
                         <label for="name">Your Name</label>
@@ -569,7 +556,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             const bookingForm = document.getElementById('booking-form');
             const successMessage = document.getElementById('success-message');
-            const errorMessage = document.getElementById('error-message');
             const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
             const navLinks = document.querySelector('.nav-links');
             
@@ -595,13 +581,8 @@
                 });
             });
             
-            // Form submission handler
             bookingForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                
-                // Hide previous messages
-                successMessage.style.display = 'none';
-                errorMessage.style.display = 'none';
                 
                 // Get form values
                 const name = document.getElementById('name').value;
@@ -612,57 +593,80 @@
                 
                 // Validate that at least one subject is selected
                 if (!maths && !physics && !both) {
-                    errorMessage.textContent = 'Please select at least one subject.';
-                    errorMessage.style.display = 'block';
+                    alert('Please select at least one subject.');
                     return;
                 }
                 
-                // Prepare subjects array
-                let subjects = [];
-                if (maths) subjects.push('Mathematics');
-                if (physics) subjects.push('Physics');
-                
                 // Calculate total
-                const total = subjects.length * 300;
+                let total = 0;
+                let subjects = [];
                 
-                // Send data to your backend API
-                fetch('/api/book', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name: name,
-                        email: email,
-                        subjects: subjects
-                    })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Show success message
-                    successMessage.innerHTML = `
-                        Thank you for your booking, ${name}!<br>
-                        We've received your request for ${subjects.join(' and ')} tutoring.<br>
-                        Total: R${total}. We'll contact you at ${email} shortly to confirm your session.
-                    `;
-                    successMessage.style.display = 'block';
-                    
-                    // Reset form
-                    bookingForm.reset();
-                    
-                    // Scroll to success message
-                    successMessage.scrollIntoView({ behavior: 'smooth' });
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    errorMessage.textContent = 'There was an error with your booking. Please try again or contact us directly.';
-                    errorMessage.style.display = 'block';
-                });
+                if (maths) {
+                    total += 300;
+                    subjects.push('Mathematics');
+                }
+                if (physics) {
+                    total += 300;
+                    subjects.push('Physics');
+                }
+                
+                fetch("/book", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    name,
+    email,
+    subjects
+  })
+})
+.then(res => res.text())
+.then(msg => {
+  successMessage.innerHTML = `
+    Thank you for your booking, ${name}!<br>
+    We've received your request for ${subjects.join(' and ')} tutoring.<br>
+    Total: R${total}. We'll contact you at ${email} shortly to confirm your session.
+  `;
+  successMessage.style.display = 'block';
+  bookingForm.reset();
+  successMessage.scrollIntoView({ behavior: 'smooth' });
+})
+.catch(err => {
+  alert("Booking failed. Please try again.");
+  console.error(err);
+});
+
+                
+               fetch("/book", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    name,
+    email,
+    subjects
+  })
+})
+.then(res => res.text())
+.then(msg => {
+  successMessage.innerHTML = `
+    Thank you for your booking, ${name}!<br>
+    We've received your request for ${subjects.join(' and ')} tutoring.<br>
+    Total: R${total}. We'll contact you at ${email} shortly to confirm your session.
+  `;
+  successMessage.style.display = 'block';
+  bookingForm.reset();
+  successMessage.scrollIntoView({ behavior: 'smooth' });
+})
+.catch(err => {
+  alert("Booking failed. Please try again.");
+  console.error(err);
+});
+
+                
+                // Reset form
+                bookingForm.reset();
+                
+                // Scroll to success message
+                successMessage.scrollIntoView({ behavior: 'smooth' });
             });
             
             // Smooth scrolling for navigation links
@@ -685,6 +689,55 @@
                 });
             });
         });
+        bookingForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const maths = document.getElementById('maths').checked;
+  const physics = document.getElementById('physics').checked;
+  const both = document.getElementById('both')?.checked;
+
+  if (!maths && !physics && !both) {
+    alert('Please select at least one subject.');
+    return;
+  }
+
+  let total = 0;
+  let subjects = [];
+
+  if (maths) {
+    total += 300;
+    subjects.push('Mathematics');
+  }
+  if (physics) {
+    total += 300;
+    subjects.push('Physics');
+  }
+
+  // ✅ Send data to backend
+  fetch("/book", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, email, subjects })
+  })
+  .then(res => res.text())
+  .then(msg => {
+    successMessage.innerHTML = `
+      Thank you for your booking, ${name}!<br>
+      We've received your request for ${subjects.join(' and ')} tutoring.<br>
+      Total: R${total}. We'll contact you at ${email} shortly to confirm your session.
+    `;
+    successMessage.style.display = 'block';
+    bookingForm.reset();
+    successMessage.scrollIntoView({ behavior: 'smooth' });
+  })
+  .catch(err => {
+    alert("Booking failed. Please try again.");
+    console.error(err);
+  });
+});
+
     </script>
 </body>
 </html>
