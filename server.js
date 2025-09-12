@@ -75,7 +75,58 @@ app.get('/api/bookings', (req, res) => {
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-
+// Admin route to view all bookings
+app.get('/admin/bookings', (req, res) => {
+  db.all('SELECT * FROM bookings ORDER BY timestamp DESC', (err, rows) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).send('Error fetching bookings');
+    }
+    
+    // Create HTML table with bookings
+    let html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>STEMfactory Bookings</title>
+        <style>
+          body { font-family: Arial, sans-serif; margin: 40px; }
+          table { border-collapse: collapse; width: 100%; }
+          th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+          th { background-color: #3a86ff; color: white; }
+          tr:nth-child(even) { background-color: #f2f2f2; }
+        </style>
+      </head>
+      <body>
+        <h1>STEMfactory Bookings</h1>
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Subjects</th>
+            <th>Total</th>
+            <th>Date/Time</th>
+          </tr>
+    `;
+    
+    rows.forEach(booking => {
+      html += `
+        <tr>
+          <td>${booking.id}</td>
+          <td>${booking.name}</td>
+          <td>${booking.email}</td>
+          <td>${booking.subjects}</td>
+          <td>R${booking.total}</td>
+          <td>${booking.timestamp}</td>
+        </tr>
+      `;
+    });
+    
+    html += '</table></body></html>';
+    res.send(html);
+  });
+});
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
