@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
-app.use(express.static('public')); // If serving static files
+app.use(express.static('public')); // Serve static files from public directory
 
 // Initialize database
 const db = new sqlite3.Database('bookings.db', (err) => {
@@ -22,7 +22,13 @@ const db = new sqlite3.Database('bookings.db', (err) => {
       subjects TEXT NOT NULL,
       total REAL NOT NULL,
       timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-    )`);
+    )`, (err) => {
+      if (err) {
+        console.error('Error creating table:', err);
+      } else {
+        console.log('Bookings table ready');
+      }
+    });
   }
 });
 
@@ -54,7 +60,7 @@ app.post('/api/book', (req, res) => {
   stmt.finalize();
 });
 
-// API endpoint to get all bookings (optional, for admin)
+// API endpoint to get all bookings (for admin purposes)
 app.get('/api/bookings', (req, res) => {
   db.all('SELECT * FROM bookings ORDER BY timestamp DESC', (err, rows) => {
     if (err) {

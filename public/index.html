@@ -376,6 +376,27 @@
             text-align: center;
         }
         
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
@@ -526,6 +547,10 @@
                 <div id="error-message" class="error-message">
                     There was an error processing your booking. Please try again.
                 </div>
+                <div id="loading" class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Processing your booking...</p>
+                </div>
                 <form id="booking-form">
                     <div class="form-group">
                         <label for="name">Your Name</label>
@@ -570,6 +595,7 @@
             const bookingForm = document.getElementById('booking-form');
             const successMessage = document.getElementById('success-message');
             const errorMessage = document.getElementById('error-message');
+            const loadingElement = document.getElementById('loading');
             const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
             const navLinks = document.querySelector('.nav-links');
             
@@ -596,24 +622,25 @@
             });
             
             // Form submission handler
-            bookingForm.addEventListener('submit', function(e) {
+            bookingForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
-                // Hide previous messages
+                // Hide previous messages and show loading
                 successMessage.style.display = 'none';
                 errorMessage.style.display = 'none';
+                loadingElement.style.display = 'block';
                 
                 // Get form values
                 const name = document.getElementById('name').value;
                 const email = document.getElementById('email').value;
                 const maths = document.getElementById('maths').checked;
                 const physics = document.getElementById('physics').checked;
-                const both = document.getElementById('both').checked;
                 
                 // Validate that at least one subject is selected
-                if (!maths && !physics && !both) {
+                if (!maths && !physics) {
                     errorMessage.textContent = 'Please select at least one subject.';
                     errorMessage.style.display = 'block';
+                    loadingElement.style.display = 'none';
                     return;
                 }
                 
@@ -625,25 +652,26 @@
                 // Calculate total
                 const total = subjects.length * 300;
                 
-                // Send data to your backend API
-                fetch('/api/book', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name: name,
-                        email: email,
-                        subjects: subjects
-                    })
-                })
-                .then(response => {
+                try {
+                    // Send data to your backend API
+                    const response = await fetch('/api/book', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: name,
+                            email: email,
+                            subjects: subjects
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
                     if (!response.ok) {
-                        throw new Error('Network response was not ok');
+                        throw new Error(data.error || 'Failed to book session');
                     }
-                    return response.json();
-                })
-                .then(data => {
+                    
                     // Show success message
                     successMessage.innerHTML = `
                         Thank you for your booking, ${name}!<br>
@@ -657,12 +685,14 @@
                     
                     // Scroll to success message
                     successMessage.scrollIntoView({ behavior: 'smooth' });
-                })
-                .catch(error => {
+                    
+                } catch (error) {
                     console.error('Error:', error);
                     errorMessage.textContent = 'There was an error with your booking. Please try again or contact us directly.';
                     errorMessage.style.display = 'block';
-                });
+                } finally {
+                    loadingElement.style.display = 'none';
+                }
             });
             
             // Smooth scrolling for navigation links
