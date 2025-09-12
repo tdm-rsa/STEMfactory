@@ -5,6 +5,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
+// Add these lines after: const app = express();
+app.use(express.static('public')); // Serves files from public folder
+app.use('/images', express.static('images')); // Serves files from images folder
 app.use(express.json());
 app.use(express.static('public')); // Serve static files from public directory
 
