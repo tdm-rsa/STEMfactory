@@ -581,28 +581,28 @@
                     <div class="loading-spinner"></div>
                     <p>Processing your booking...</p>
                 </div>
-                <form id="booking-form">
+                <form id="booking-form" action = "https://hooks.zapier.com/hooks/catch/24584114/um4je8a/" method="POST">
                     <div class="form-group">
                         <label for="name">Your Name</label>
-                        <input type="text" id="name" class="form-control" placeholder="Enter your full name" required>
+                        <input type="text" id="name" name ="Name" class="form-control" placeholder="Enter your full name" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Your Email</label>
-                        <input type="email" id="email" class="form-control" placeholder="Enter your email address" required>
+                        <input type="email" id="email" name="Email" class="form-control" placeholder="Enter your email address" required>
                     </div>
                     <div class="form-group">
                         <label>Select Subjects (R350 per subject)</label>
                         <div class="checkbox-group">
                             <div class="checkbox-item">
-                                <input type="checkbox" id="maths" name="subjects" value="maths">
+                                <input type="checkbox" id="maths" name="subjects" value="Mathematics (R350)">
                                 <label for="maths">Mathematics (R350)</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" id="physics" name="subjects" value="physics">
+                                <input type="checkbox" id="physics" name="subjects" value="Physics (R350)">
                                 <label for="physics">Physics (R350)</label>
                             </div>
                             <div class="checkbox-item">
-                                <input type="checkbox" id="both" name="subjects" value="both">
+                                <input type="checkbox" id="both" name="subjects" value="Both Subjects(R600)">
                                 <label for="both">Both Subjects (R600)</label>
                             </div>
                         </div>
