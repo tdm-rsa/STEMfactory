@@ -3,741 +3,383 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STEMfactory | Maths & Physics Tutoring</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Service Signup Form</title>
     <style>
-        :root {
-            --primary: #3a86ff;
-            --secondary: #ff006e;
-            --accent: #8338ec;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --success: #38b000;
-            --math-color: #3a86ff;
-            --physics-color: #ff006e;
-        }
-        
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background-color: #f5f7fa;
-            color: var(--dark);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
             line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: white;
-            padding: 1rem 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo span {
-            color: var(--secondary);
-        }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-        
-        .nav-links li {
-            margin-left: 2rem;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-links a:hover {
-            color: #ffd166;
-        }
-        
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        
-        .hero {
-            padding: 4rem 0;
-            text-align: center;
-            background: white;
-        }
-        
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--dark);
-            max-width: 800px;
-            margin: 0 auto 2rem;
-        }
-        
-        .price-tag {
-            background: var(--success);
-            color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            display: inline-block;
-            font-weight: 700;
-            margin: 1rem 0;
-        }
-        
-        .btn {
-            display: inline-block;
-            background: var(--secondary);
-            color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        
-        .btn:hover {
-            background: var(--accent);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-        
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--secondary);
-            color: var(--secondary);
-        }
-        
-        .btn-outline:hover {
-            background: var(--secondary);
-            color: white;
-        }
-        
-        section {
-            padding: 4rem 0;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        
-        .section-title h2 {
-            font-size: 2.2rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-        
-        .section-title p {
-            color: #6c757d;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        .subjects {
-            background: white;
-        }
-        
-        .subject-cards {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 2rem;
-        }
-        
-        .card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            width: 300px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-        
-        .card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .maths-card .card-header {
-            background: var(--math-color);
-        }
-        
-        .physics-card .card-header {
-            background: var(--physics-color);
-        }
-        
-        .card-header {
-            color: white;
-            padding: 1.5rem;
-            text-align: center;
-        }
-        
-        .card-body {
-            padding: 1.5rem;
-        }
-        
-        .card-body ul {
-            list-style: none;
-            margin: 1rem 0;
-        }
-        
-        .card-body ul li {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            align-items: center;
-        }
-        
-        .card-body ul li i {
-            margin-right: 0.5rem;
-            color: var(--primary);
-        }
-        
-        .card-body ul li:last-child {
-            border-bottom: none;
-        }
-        
-        .about {
-            background: #f8f9fa;
-        }
-        
-        .about-content {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 3rem;
-        }
-        
-        .about-text {
-            flex: 1;
-            min-width: 300px;
-        }
-        
-        .about-image {
-            flex: 1;
-            min-width: 300px;
-            text-align: center;
-        }
-        
-        .about-image img {
+            max-width: 500px;
             width: 100%;
-            max-width: 350px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
         
-        .booking {
-            background: white;
-        }
-        
-        .booking-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2c3e50;
         }
         
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 20px;
         }
         
-        .form-group label {
+        label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
         }
         
-        .form-control {
+        input, select {
             width: 100%;
-            padding: 0.8rem 1rem;
-            border: 1px solid #ddd;
+            padding: 14px;
+            border: 2px solid #ddd;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 16px;
+            transition: border-color 0.3s;
         }
         
-        .form-control:focus {
+        input:focus, select:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.2);
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         }
         
-        .checkbox-group {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-        
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: #f8f9fa;
-            padding: 0.8rem 1.2rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        
-        .checkbox-item:hover {
-            background: #e9ecef;
-        }
-        
-        .checkbox-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-        }
-        
-        .contact-info {
-            text-align: center;
-            margin-top: 2rem;
-        }
-        
-        .contact-info a {
-            color: var(--primary);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            margin: 0 1rem;
-        }
-        
-        .contact-info a:hover {
-            color: var(--secondary);
-        }
-        
-        .contact-info i {
-            margin-right: 0.5rem;
-        }
-        
-        footer {
-            background: var(--dark);
+        button {
+            width: 100%;
+            padding: 16px;
+            background-color: #3498db;
             color: white;
-            padding: 2rem 0;
-            text-align: center;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        button:active {
+            transform: translateY(0);
         }
         
         .success-message {
             display: none;
-            background: var(--success);
-            color: white;
-            padding: 1rem;
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
             border-radius: 8px;
-            margin-bottom: 1rem;
+            margin-top: 20px;
             text-align: center;
+            border: 1px solid #c3e6cb;
         }
         
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: var(--primary);
-                flex-direction: column;
-                padding: 1rem 0;
-                text-align: center;
-            }
-            
-            .nav-links.active {
-                display: flex;
-            }
-            
-            .nav-links li {
-                margin: 0.5rem 0;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .about-content {
-                flex-direction: column;
-            }
-            
-            .checkbox-group {
-                flex-direction: column;
-                gap: 1rem;
-            }
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .service-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .service-option {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            padding: 15px 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .service-option:hover {
+            border-color: #3498db;
+        }
+        
+        .service-option.selected {
+            border-color: #3498db;
+            background-color: #ebf5fb;
+            font-weight: 600;
+        }
+        
+        .service-option input {
+            display: none;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">STEM<span>factory</span></div>
-                <ul class="nav-links">
-                    <li><a href="#subjects">Subjects</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#booking">Book Now</a></li>
-                </ul>
-                <button class="mobile-menu-btn">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </nav>
-        </div>
-    </header>
-
-    <section class="hero">
-        <div class="container">
-            <h1>Making STEM Intuitive</h1>
-            <p>Quality Grade 12 Maths and Physics tutoring at an affordable rate. Master difficult concepts with personalized lessons.</p>
-            <div class="price-tag">Only R300 per subject</div>
-            <a href="#booking" class="btn">Book a Session Now</a>
-        </div>
-    </section>
-
-    <section id="subjects" class="subjects">
-        <div class="container">
-            <div class="section-title">
-                <h2>Subjects Offered</h2>
-                <p>Choose between Maths, Physics, or both subjects for your tutoring sessions</p>
+    <div class="container">
+        <div class="logo">ServicePro</div>
+        <h1>Sign Up for Our Services</h1>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                <div class="error" id="nameError">Please enter your name</div>
             </div>
-            <div class="subject-cards">
-                <div class="card maths-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-calculator"></i> Mathematics</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Grade 12 Mathematics topics covered:</p>
-                        <ul>
-                            <li><i class="fas fa-check-circle"></i> Calculus & Algebra</li>
-                            <li><i class="fas fa-check-circle"></i> Functions & Graphs</li>
-                            <li><i class="fas fa-check-circle"></i> Probability & Statistics</li>
-                            <li><i class="fas fa-check-circle"></i> Geometry & Trigonometry</li>
-                            <li><i class="fas fa-check-circle"></i> Exam Preparation</li>
-                        </ul>
-                        <div class="price-tag">R300</div>
-                    </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <div class="error" id="emailError">Please enter a valid email address</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                <div class="error" id="phoneError">Please enter a valid phone number</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="date">Preferred Date</label>
+                <input type="date" id="date" name="date" required>
+                <div class="error" id="dateError">Please select a date</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Select Service</label>
+                <div class="service-options">
+                    <label class="service-option" id="webDesignOption">
+                        <input type="radio" name="service" value="Web Design" required>
+                        Web Design
+                    </label>
+                    <label class="service-option" id="seoOption">
+                        <input type="radio" name="service" value="SEO Optimization">
+                        SEO Optimization
+                    </label>
+                    <label class="service-option" id="contentOption">
+                        <input type="radio" name="service" value="Content Writing">
+                        Content Writing
+                    </label>
                 </div>
-                <div class="card physics-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-atom"></i> Physics</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Grade 12 Physics topics covered:</p>
-                        <ul>
-                            <li><i class="fas fa-check-circle"></i> Mechanics</li>
-                            <li><i class="fas fa-check-circle"></i> Waves, Sound & Light</li>
-                            <li><i class="fas fa-check-circle"></i> Electricity & Magnetism</li>
-                            <li><i class="fas fa-check-circle"></i> Modern Physics</li>
-                            <li><i class="fas fa-check-circle"></i> Past Paper Practice</li>
-                        </ul>
-                        <div class="price-tag">R300</div>
-                    </div>
-                </div>
+                <div class="error" id="serviceError">Please select a service</div>
             </div>
+            
+            <button type="submit" id="submitButton">Sign Up Now</button>
+        </form>
+        
+        <div class="loading" id="loadingIndicator">
+            <div class="spinner"></div>
+            <p>Submitting your information...</p>
         </div>
-    </section>
-
-    <section id="about" class="about">
-        <div class="container">
-            <div class="section-title">
-                <h2>About Me</h2>
-            </div>
-            <div class="about-content">
-                <div class="about-text">
-                    <h3>Hi, I'm Nqubeko Ngcece</h3>
-                    <p>I'm a third-year Machine Learning student at the University of Cape Town, originally from Umlazi. As an ambitious young man passionate about education, I started STEMfactory to help struggling students who can't afford expensive tutoring.</p>
-                    <p>Having excelled in Mathematics and Physics throughout my academic journey, I understand the challenges students face with these subjects. My approach focuses on breaking down complex concepts into intuitive, understandable parts.</p>
-                    <p>I believe that every student has the potential to excel in STEM subjects when given the right guidance and support.</p>
-                    
-                    <div class="contact-info">
-                        <a href="https://wa.me/27635837312" target="_blank">
-                            <i class="fab fa-whatsapp"></i> WhatsApp: 0635837312
-                        </a>
-                        <a href="mailto:stemfactory27@gmail.com">
-                            <i class="fas fa-envelope"></i> stemfactory27@gmail.com
-                        </a>
-                    </div>
-                </div>
-                <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Nqubeko Ngcece - STEM Tutor">
-                </div>
-            </div>
+        
+        <div class="success-message" id="successMessage">
+            <h3>Thank you for signing up!</h3>
+            <p>We've received your information and will be in touch soon.</p>
         </div>
-    </section>
-
-    <section id="booking" class="booking">
-        <div class="container">
-            <div class="section-title">
-                <h2>Book a Tutoring Session</h2>
-                <p>Simply provide your name and email to schedule your session</p>
-            </div>
-            <div class="booking-form">
-                <div id="success-message" class="success-message">
-                    Thank you for your booking! We'll contact you shortly to confirm your session.
-                </div>
-                <form id="booking-form">
-                    <div class="form-group">
-                        <label for="name">Your Name</label>
-                        <input type="text" id="name" class="form-control" placeholder="Enter your full name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Your Email</label>
-                        <input type="email" id="email" class="form-control" placeholder="Enter your email address" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Select Subjects (R300 per subject)</label>
-                        <div class="checkbox-group">
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="maths" name="subjects" value="maths">
-                                <label for="maths">Mathematics (R300)</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="physics" name="subjects" value="physics">
-                                <label for="physics">Physics (R300)</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="both" name="subjects" value="both">
-                                <label for="both">Both Subjects (R600)</label>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn">Book Now</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 STEMfactory Tutoring. All rights reserved.</p>
-            <p>Contact: stemfactory27@gmail.com | WhatsApp: 0635837312</p>
-        </div>
-    </footer>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const bookingForm = document.getElementById('booking-form');
-            const successMessage = document.getElementById('success-message');
-            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-            const navLinks = document.querySelector('.nav-links');
+            const form = document.getElementById('signupForm');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const successMessage = document.getElementById('successMessage');
+            const submitButton = document.getElementById('submitButton');
             
-            // Mobile menu toggle
-            mobileMenuBtn.addEventListener('click', function() {
-                navLinks.classList.toggle('active');
-            });
-            
-            // Handle subject selection
-            const subjectCheckboxes = document.querySelectorAll('input[name="subjects"]');
-            subjectCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    if (this.value === 'both') {
-                        if (this.checked) {
-                            document.getElementById('maths').checked = true;
-                            document.getElementById('physics').checked = true;
-                        }
-                    } else if (this.value === 'maths' || this.value === 'physics') {
-                        if (!this.checked) {
-                            document.getElementById('both').checked = false;
-                        }
-                    }
+            // Service option selection
+            const serviceOptions = document.querySelectorAll('.service-option');
+            serviceOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    serviceOptions.forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    this.querySelector('input').checked = true;
                 });
             });
             
-            bookingForm.addEventListener('submit', function(e) {
+            // Form submission
+            form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                // Get form values
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const maths = document.getElementById('maths').checked;
-                const physics = document.getElementById('physics').checked;
-                const both = document.getElementById('both').checked;
+                // Basic validation
+                let isValid = validateForm();
                 
-                // Validate that at least one subject is selected
-                if (!maths && !physics && !both) {
-                    alert('Please select at least one subject.');
-                    return;
+                if (isValid) {
+                    // Show loading indicator
+                    loadingIndicator.style.display = 'block';
+                    submitButton.disabled = true;
+                    
+                    // Get current timestamp
+                    const timestamp = new Date().toISOString();
+                    
+                    // Prepare data for Zapier webhook
+                    const formData = {
+                        name: document.getElementById('name').value.trim(),
+                        email: document.getElementById('email').value.trim(),
+                        phone: document.getElementById('phone').value.trim(),
+                        date: document.getElementById('date').value,
+                        timestamp: timestamp,
+                        service: document.querySelector('input[name="service"]:checked').value
+                    };
+                    
+                    // Replace with your actual Zapier webhook URL
+                    const zapierWebhookURL = 'https://hooks.zapier.com/hooks/catch/24621591/um9z8a5/';
+                    
+                    // Send data to Zapier
+                    fetch(zapierWebhookURL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // Show success message
+                            successMessage.style.display = 'block';
+                            loadingIndicator.style.display = 'none';
+                            // Reset form
+                            form.reset();
+                            serviceOptions.forEach(o => o.classList.remove('selected'));
+                        } else {
+                            throw new Error('Network response was not ok');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        loadingIndicator.style.display = 'none';
+                        submitButton.disabled = false;
+                        alert('There was an issue with your submission. Please check your connection and try again.');
+                    });
                 }
-                
-                // Calculate total
-                let total = 0;
-                let subjects = [];
-                
-                if (maths) {
-                    total += 300;
-                    subjects.push('Mathematics');
-                }
-                if (physics) {
-                    total += 300;
-                    subjects.push('Physics');
-                }
-                
-                fetch("/book", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    name,
-    email,
-    subjects
-  })
-})
-.then(res => res.text())
-.then(msg => {
-  successMessage.innerHTML = `
-    Thank you for your booking, ${name}!<br>
-    We've received your request for ${subjects.join(' and ')} tutoring.<br>
-    Total: R${total}. We'll contact you at ${email} shortly to confirm your session.
-  `;
-  successMessage.style.display = 'block';
-  bookingForm.reset();
-  successMessage.scrollIntoView({ behavior: 'smooth' });
-})
-.catch(err => {
-  alert("Booking failed. Please try again.");
-  console.error(err);
-});
-
-                
-               fetch("/book", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    name,
-    email,
-    subjects
-  })
-})
-.then(res => res.text())
-.then(msg => {
-  successMessage.innerHTML = `
-    Thank you for your booking, ${name}!<br>
-    We've received your request for ${subjects.join(' and ')} tutoring.<br>
-    Total: R${total}. We'll contact you at ${email} shortly to confirm your session.
-  `;
-  successMessage.style.display = 'block';
-  bookingForm.reset();
-  successMessage.scrollIntoView({ behavior: 'smooth' });
-})
-.catch(err => {
-  alert("Booking failed. Please try again.");
-  console.error(err);
-});
-
-                
-                // Reset form
-                bookingForm.reset();
-                
-                // Scroll to success message
-                successMessage.scrollIntoView({ behavior: 'smooth' });
             });
             
-            // Smooth scrolling for navigation links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        // Close mobile menu if open
-                        navLinks.classList.remove('active');
-                        
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth'
-                        });
+            // Form validation
+            function validateForm() {
+                let isValid = true;
+                
+                // Reset error messages
+                document.querySelectorAll('.error').forEach(el => el.style.display = 'none');
+                
+                // Validate name
+                const name = document.getElementById('name');
+                if (!name.value.trim()) {
+                    document.getElementById('nameError').style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate email
+                const email = document.getElementById('email');
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!email.value.match(emailPattern)) {
+                    document.getElementById('emailError').style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate phone
+                const phone = document.getElementById('phone');
+                if (!phone.value.trim()) {
+                    document.getElementById('phoneError').style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate date
+                const date = document.getElementById('date');
+                if (!date.value) {
+                    document.getElementById('dateError').style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate service
+                const service = document.querySelector('input[name="service"]:checked');
+                if (!service) {
+                    document.getElementById('serviceError').style.display = 'block';
+                    isValid = false;
+                }
+                
+                return isValid;
+            }
+            
+            // Real-time validation
+            document.getElementById('name').addEventListener('blur', function() {
+                if (!this.value.trim()) {
+                    document.getElementById('nameError').style.display = 'block';
+                }
+            });
+            
+            document.getElementById('email').addEventListener('blur', function() {
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!this.value.match(emailPattern)) {
+                    document.getElementById('emailError').style.display = 'block';
+                }
+            });
+            
+            document.getElementById('phone').addEventListener('blur', function() {
+                if (!this.value.trim()) {
+                    document.getElementById('phoneError').style.display = 'block';
+                }
+            });
+            
+            // Hide error when user starts typing
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    const errorElement = document.getElementById(this.id + 'Error');
+                    if (errorElement) {
+                        errorElement.style.display = 'none';
                     }
                 });
             });
         });
-        bookingForm.addEventListener('submit', function(e) {
-  e.preventDefault();
-
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const maths = document.getElementById('maths').checked;
-  const physics = document.getElementById('physics').checked;
-  const both = document.getElementById('both')?.checked;
-
-  if (!maths && !physics && !both) {
-    alert('Please select at least one subject.');
-    return;
-  }
-
-  let total = 0;
-  let subjects = [];
-
-  if (maths) {
-    total += 300;
-    subjects.push('Mathematics');
-  }
-  if (physics) {
-    total += 300;
-    subjects.push('Physics');
-  }
-
-  // ✅ Send data to backend
-  fetch("/book", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, email, subjects })
-  })
-  .then(res => res.text())
-  .then(msg => {
-    successMessage.innerHTML = `
-      Thank you for your booking, ${name}!<br>
-      We've received your request for ${subjects.join(' and ')} tutoring.<br>
-      Total: R${total}. We'll contact you at ${email} shortly to confirm your session.
-    `;
-    successMessage.style.display = 'block';
-    bookingForm.reset();
-    successMessage.scrollIntoView({ behavior: 'smooth' });
-  })
-  .catch(err => {
-    alert("Booking failed. Please try again.");
-    console.error(err);
-  });
-});
-
     </script>
 </body>
 </html>

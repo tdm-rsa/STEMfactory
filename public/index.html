@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>STEMfactory | Maths & Physics Tutoring</title>
+    <link rel="icon" href="/images/STEMLOGO.jpg" type="image/jpeg">
+    <link rel="apple-touch-icon" href="/images/STEMLOGO.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -434,7 +436,21 @@
                 flex-direction: column;
                 gap: 1rem;
             }
+            
         }
+          .booking-form iframe {
+           width: 100% !important;
+           max-width: 100%;
+           height: 800px; /* Adjust height as needed */
+           border: none;
+        }
+
+/* For smaller mobile screens */
+         @media (max-width: 480px) {
+         .booking-form iframe {
+         height: 600px; /* Shorter height for mobile */
+       }
+       }
     </style>
 </head>
 <body>
@@ -562,189 +578,36 @@
     </section>
 
     <section id="booking" class="booking">
-        <div class="container">
-            <div class="section-title">
-                <h2>Book a Tutoring Session</h2>
-                
-                <p>Simply provide your name and email to schedule your session</p>
-            </div>
-            <div class="booking-form">
-                <div id="success-message" class="success-message">
-                    Thank you for your booking! We'll contact you shortly to confirm your session.
-                    
-                </div>
-                 
-                <div id="error-message" class="error-message">
-                    There was an error processing your booking. Please try again.
-                </div>
-                <div id="loading" class="loading">
-                    <div class="loading-spinner"></div>
-                    <p>Processing your booking...</p>
-                </div>
-                <form id="booking-form" action = "https://hooks.zapier.com/hooks/catch/24584114/um4je8a/" method="POST">
-                    <div class="form-group">
-                        <label for="name">Your Name</label>
-                        <input type="text" id="name" name ="Name" class="form-control" placeholder="Enter your full name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Your Email</label>
-                        <input type="email" id="email" name="Email" class="form-control" placeholder="Enter your email address" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Select Subjects (R350 per subject)</label>
-                        <div class="checkbox-group">
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="maths" name="subjects" value="Mathematics (R350)">
-                                <label for="maths">Mathematics (R350)</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="physics" name="subjects" value="Physics (R350)">
-                                <label for="physics">Physics (R350)</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="both" name="subjects" value="Both Subjects(R600)">
-                                <label for="both">Both Subjects (R600)</label>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn">Book Now</button>
-                </form>
-            </div>
-        </div>
-    </section>
+  <div class="container">
+    <div class="section-title">
+      <h2>Book a Tutoring Session</h2>
+      <p>Simply provide your name and email to schedule your session</p>
+    </div>
+    <div class="booking-form">
+      <div id="success-message" class="success-message" style="display:none;">
+        Thank you for your booking! We'll contact you shortly to confirm your session.
+      </div>
+       
+      <div id="error-message" class="error-message" style="display:none;">
+        There was an error processing your booking. Please try again.
+      </div>
+      <div id="loading" class="loading" style="display:none;">
+        <div class="loading-spinner"></div>
+        <p>Processing your booking...</p>
+      </div>
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdx3ostfAM8b22vhMhuCMLUcP8RsvYIjKVxEXLUhq0IER3qQw/viewform?embedded=true" width="600" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+    </div>
+  </div>
+</section>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 STEMfactory Tutoring. All rights reserved.</p>
-            <p>Contact: stemfactory27@gmail.com | WhatsApp: 0635837312</p>
-        </div>
-    </footer>
+<footer>
+  <div class="container">
+    <p>&copy; 2025 STEMfactory Tutoring. All rights reserved.</p>
+    <p>Contact: stemfactory27@gmail.com | WhatsApp: 0635837312</p>
+  </div>
+</footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const bookingForm = document.getElementById('booking-form');
-            const successMessage = document.getElementById('success-message');
-            const errorMessage = document.getElementById('error-message');
-            const loadingElement = document.getElementById('loading');
-            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-            const navLinks = document.querySelector('.nav-links');
-            
-            // Mobile menu toggle
-            mobileMenuBtn.addEventListener('click', function() {
-                navLinks.classList.toggle('active');
-            });
-            
-            // Handle subject selection
-            const subjectCheckboxes = document.querySelectorAll('input[name="subjects"]');
-            subjectCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    if (this.value === 'both') {
-                        if (this.checked) {
-                            document.getElementById('maths').checked = true;
-                            document.getElementById('physics').checked = true;
-                        }
-                    } else if (this.value === 'maths' || this.value === 'physics') {
-                        if (!this.checked) {
-                            document.getElementById('both').checked = false;
-                        }
-                    }
-                });
-            });
-            
-            // Form submission handler
-            bookingForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                // Hide previous messages and show loading
-                successMessage.style.display = 'none';
-                errorMessage.style.display = 'none';
-                loadingElement.style.display = 'block';
-                
-                // Get form values
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const maths = document.getElementById('maths').checked;
-                const physics = document.getElementById('physics').checked;
-                
-                // Validate that at least one subject is selected
-                if (!maths && !physics) {
-                    errorMessage.textContent = 'Please select at least one subject.';
-                    errorMessage.style.display = 'block';
-                    loadingElement.style.display = 'none';
-                    return;
-                }
-                
-                // Prepare subjects array
-                let subjects = [];
-                if (maths) subjects.push('Mathematics');
-                if (physics) subjects.push('Physics');
-                
-                // Calculate total
-                const total = subjects.length * 300;
-                
-                try {
-                    // Send data to your backend API
-                    const response = await fetch('/api/book', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            name: name,
-                            email: email,
-                            subjects: subjects
-                        })
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (!response.ok) {
-                        throw new Error(data.error || 'Failed to book session');
-                    }
-                    
-                    // Show success message
-                    successMessage.innerHTML = `
-                        Thank you for your booking, ${name}!<br>
-                        We've received your request for ${subjects.join(' and ')} tutoring.<br>
-                        Total: R${total}. We'll contact you at ${email} shortly to confirm your session.
-                    `;
-                    successMessage.style.display = 'block';
-                    
-                    // Reset form
-                    bookingForm.reset();
-                    
-                    // Scroll to success message
-                    successMessage.scrollIntoView({ behavior: 'smooth' });
-                    
-                } catch (error) {
-                    console.error('Error:', error);
-                    errorMessage.textContent = 'There was an error with your booking. Please try again or contact us directly.';
-                    errorMessage.style.display = 'block';
-                } finally {
-                    loadingElement.style.display = 'none';
-                }
-            });
-            
-            // Smooth scrolling for navigation links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        // Close mobile menu if open
-                        navLinks.classList.remove('active');
-                        
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-        });
-    </script>
+<!-- Supabase client -->
+
 </body>
 </html>
